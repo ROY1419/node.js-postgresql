@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Node.js Rest Apis with Express, Sequelize & PostgreSQL",
   "main": "server.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev":"node server.js"
   },

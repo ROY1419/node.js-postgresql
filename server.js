@@ -1,5 +1,5 @@
-const express = require("express");
-const cors = require("cors");
+import express, { json, urlencoded } from "express";
+import cors from "cors";
 
 const app = express();
 
@@ -9,14 +9,12 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
-app.use(express.json());
+app.use(json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true }));
 
-const db = require("./app/models");
-db.sequelize.sync()
+import { sequelize } from "./app/models/index.js";
+sequelize.sync()
   .then(() => {
     console.log("Synced db.");
   })
@@ -24,17 +22,10 @@ db.sequelize.sync()
     console.log("Failed to sync db: " + err.message);
   });
 
-// // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
-
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to bezkoder application." });
 });
-
-require("./app/routes/turorial.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
